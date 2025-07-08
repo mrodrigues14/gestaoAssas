@@ -1,20 +1,16 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { asaasService, type DashboardStats, type Payment } from '@/services/asaas';
 import { 
-  ChartBarIcon, 
-  DocumentChartBarIcon,
+  ChartBarIcon,
   CalendarIcon,
   ArrowDownTrayIcon,
   CurrencyDollarIcon,
-  UsersIcon,
   CreditCardIcon,
   ClockIcon,
-  CheckCircleIcon,
   ExclamationTriangleIcon,
-  ArrowTrendingUpIcon,
-  ArrowTrendingDownIcon
+  ArrowTrendingUpIcon
 } from '@heroicons/react/24/outline';
 
 export default function RelatoriosPage() {
@@ -27,11 +23,7 @@ export default function RelatoriosPage() {
     endDate: new Date().toISOString().split('T')[0]
   });
 
-  useEffect(() => {
-    loadReportsData();
-  }, [dateFilter]);
-
-  const loadReportsData = async () => {
+  const loadReportsData = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -47,13 +39,17 @@ export default function RelatoriosPage() {
       );
       setPayments(paymentsResponse.data);
       
-    } catch (err) {
+    } catch (err: unknown) {
       setError('Erro ao carregar dados dos relatórios');
       console.error(err);
     } finally {
       setLoading(false);
     }
-  };
+  }, [dateFilter.startDate, dateFilter.endDate]);
+
+  useEffect(() => {
+    loadReportsData();
+  }, [loadReportsData]);
 
   // Calcular métricas do período
   const periodStats = {

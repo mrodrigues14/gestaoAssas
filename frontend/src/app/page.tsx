@@ -325,7 +325,7 @@ export default function Home() {
                 <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
                   <h4 className="font-semibold text-yellow-800 mb-2">⚠️ Configuração Necessária</h4>
                   <p className="text-sm text-yellow-700">
-                    Configure sua chave da API do Asaas no arquivo .env.local para visualizar dados reais.
+                    Configure sua chave da API do Asaas no arquivo .env para visualizar dados reais.
                   </p>
                 </div>
               )}

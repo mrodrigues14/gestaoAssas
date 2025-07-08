@@ -15,10 +15,18 @@ import {
   FunnelIcon
 } from '@heroicons/react/24/outline';
 
+interface PaymentFormData {
+  customer: string;
+  value: number;
+  description: string;
+  dueDate: string;
+  billingType: 'BOLETO' | 'CREDIT_CARD' | 'DEBIT_CARD' | 'TRANSFER' | 'DEPOSIT' | 'PIX';
+}
+
 interface NovaCobrancaModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (cobrancaData: any) => void;
+  onSave: (cobrancaData: PaymentFormData) => void;
 }
 
 function NovaCobrancaModal({ isOpen, onClose, onSave }: NovaCobrancaModalProps) {
@@ -28,7 +36,7 @@ function NovaCobrancaModal({ isOpen, onClose, onSave }: NovaCobrancaModalProps) 
     value: '',
     dueDate: '',
     description: '',
-    billingType: 'BOLETO' as const
+    billingType: 'BOLETO' as 'BOLETO' | 'CREDIT_CARD' | 'DEBIT_CARD' | 'TRANSFER' | 'DEPOSIT' | 'PIX'
   });
 
   useEffect(() => {
@@ -48,7 +56,7 @@ function NovaCobrancaModal({ isOpen, onClose, onSave }: NovaCobrancaModalProps) 
     try {
       const response = await asaasService.getCustomers(1000);
       setClientes(response.data);
-    } catch (err) {
+    } catch (err: unknown) {
       console.error('Erro ao carregar clientes:', err);
     }
   };
@@ -133,7 +141,7 @@ function NovaCobrancaModal({ isOpen, onClose, onSave }: NovaCobrancaModalProps) 
             </label>
             <select
               value={formData.billingType}
-              onChange={(e) => setFormData({ ...formData, billingType: e.target.value as any })}
+              onChange={(e) => setFormData({ ...formData, billingType: e.target.value as 'BOLETO' | 'CREDIT_CARD' | 'DEBIT_CARD' | 'TRANSFER' | 'DEPOSIT' | 'PIX' })}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="BOLETO">Boleto Bancário</option>
@@ -194,7 +202,7 @@ export default function CobrancasPage() {
       setError(null);
       const response = await asaasService.getPayments(1000);
       setPayments(response.data);
-    } catch (err) {
+    } catch (err: unknown) {
       setError('Erro ao carregar cobranças');
       console.error(err);
     } finally {
@@ -202,12 +210,12 @@ export default function CobrancasPage() {
     }
   };
 
-  const handleCreatePayment = async (paymentData: any) => {
+  const handleCreatePayment = async (paymentData: PaymentFormData) => {
     try {
       await asaasService.createPayment(paymentData);
       alert('Cobrança criada com sucesso!');
       await loadPayments();
-    } catch (err) {
+    } catch (err: unknown) {
       alert('Erro ao criar cobrança');
       console.error(err);
     }

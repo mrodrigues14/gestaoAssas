@@ -12,11 +12,21 @@ import {
   MagnifyingGlassIcon
 } from '@heroicons/react/24/outline';
 
+interface ClienteFormData {
+  name: string;
+  email: string;
+  cpfCnpj: string;
+  phone: string;
+  mobilePhone?: string;
+  personType: 'FISICA' | 'JURIDICA';
+  observations?: string;
+}
+
 interface ClienteModalProps {
   isOpen: boolean;
   onClose: () => void;
   cliente?: Customer | null;
-  onSave: (clienteData: any) => void;
+  onSave: (clienteData: ClienteFormData) => void;
 }
 
 function ClienteModal({ isOpen, onClose, cliente, onSave }: ClienteModalProps) {
@@ -204,7 +214,7 @@ export default function ClientesPage() {
       setError(null);
       const response = await asaasService.getCustomers(1000);
       setClientes(response.data);
-    } catch (err) {
+    } catch (err: unknown) {
       setError('Erro ao carregar clientes');
       console.error(err);
     } finally {
@@ -212,7 +222,7 @@ export default function ClientesPage() {
     }
   };
 
-  const handleSaveCliente = async (clienteData: any) => {
+  const handleSaveCliente = async (clienteData: ClienteFormData) => {
     try {
       if (selectedCliente) {
         // Atualizar cliente (não implementado na API ainda)
@@ -223,7 +233,7 @@ export default function ClientesPage() {
         alert('Cliente criado com sucesso!');
         await loadClientes();
       }
-    } catch (err) {
+    } catch (err: unknown) {
       alert('Erro ao salvar cliente');
       console.error(err);
     }

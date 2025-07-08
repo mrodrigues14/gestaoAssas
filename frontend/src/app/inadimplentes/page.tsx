@@ -148,7 +148,7 @@ export default function InadimplentesPage() {
         return;
       }
 
-      const newPayment = await asaasService.generateBoletoForCustomer(
+      await asaasService.generateBoletoForCustomer(
         selectedCustomer.id,
         value,
         dueDate,

@@ -224,8 +224,8 @@ class AsaasService {
         data,
         totalCount: data.length
       };
-    } catch (error) {
-      console.error('Erro ao buscar clientes inadimplentes:', error);
+    } catch (err: unknown) {
+      console.error('Erro ao buscar clientes inadimplentes:', err);
       return { data: [], totalCount: 0 };
     }
   }
@@ -240,7 +240,7 @@ class AsaasService {
     try {
       await this.makeRequest('/customers?limit=1');
       return true;
-    } catch (error) {
+    } catch {
       return false;
     }
   }
