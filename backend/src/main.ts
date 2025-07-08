@@ -9,11 +9,13 @@ async function bootstrap() {
   
   // Configurar CORS para permitir requests do frontend
   app.enableCors({
-    origin: ['http://localhost:3000', 'https://gestao-assas.vercel.app'], // URLs do frontend Next.js
+    origin: ['http://localhost:3000', 'https://gestao-assas.vercel.app', 'https://gestaoassas.onrender.com'], // URLs do frontend Next.js
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
   
-  await app.listen(process.env.PORT ?? 8080); // Porta 8080 para o backend
+  const port = process.env.PORT || 8080;
+  await app.listen(port);
+  console.log(`🚀 Backend rodando na porta ${port}`);
 }
 bootstrap();

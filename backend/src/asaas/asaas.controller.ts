@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Query, Param, UseGuards } from '@nestjs/co
 import { AsaasService } from './asaas.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
-@Controller('api/asaas')
+@Controller('asaas')
 @UseGuards(JwtAuthGuard)
 export class AsaasController {
   constructor(private readonly asaasService: AsaasService) {}

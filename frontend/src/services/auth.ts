@@ -21,10 +21,10 @@ interface RegisterData {
 }
 
 class AuthService {
-  private baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  private baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080';
 
   async login(data: LoginData): Promise<AuthResponse> {
-    const response = await fetch(`${this.baseUrl}/auth/login`, {
+    const response = await fetch(`${this.baseUrl}/api/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ class AuthService {
   }
 
   async register(data: RegisterData): Promise<AuthResponse> {
-    const response = await fetch(`${this.baseUrl}/auth/register`, {
+    const response = await fetch(`${this.baseUrl}/api/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -82,7 +82,7 @@ class AuthService {
   async getProfile(): Promise<User> {
     const token = this.getToken();
     
-    const response = await fetch(`${this.baseUrl}/auth/profile`, {
+    const response = await fetch(`${this.baseUrl}/api/auth/profile`, {
       headers: {
         'Authorization': `Bearer ${token}`,
       },
@@ -101,7 +101,7 @@ class AuthService {
     if (!token) return false;
 
     try {
-      const response = await fetch(`${this.baseUrl}/auth/validate`, {
+      const response = await fetch(`${this.baseUrl}/api/auth/validate`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
