@@ -9,7 +9,7 @@ async function bootstrap() {
   
   // Configurar CORS para permitir requests do frontend
   app.enableCors({
-    origin: 'http://localhost:3000', // URL do frontend Next.js
+    origin: ['http://localhost:3000', 'https://gestao-assas.vercel.app'], // URLs do frontend Next.js
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
